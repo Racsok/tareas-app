@@ -1,2 +1,5 @@
 babel==2.17.0
+greenlet==3.3.0
+SQLAlchemy==2.0.45
 tkcalendar==1.6.1
+typing_extensions==4.15.0
