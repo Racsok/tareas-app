@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
+from ui.ui_ventana_principal import UiVentanaPrincipla
 from vista.ventana_crear_tarea import VistaCrearTarea
 from vista.ventana_tarea import VistaTarea
 
@@ -11,7 +12,7 @@ class Ventana(tk.Tk):
         self.geometry("500x500")
         self.configure(bg="#f0f0f0")
         self.control = control
-        
+
         # Estilo para botones y etiquetas
         style = ttk.Style()
         style.configure("Card.TFrame", background="white", relief="flat")
@@ -68,27 +69,23 @@ class Ventana(tk.Tk):
             widget.destroy()
         #lista actualizada de tareas
         lista_tareas = self.control.listar_tareas(args)
+        ui = UiVentanaPrincipla()
 
         for i, Tarea in enumerate(lista_tareas):
             # Creamos la tarjeta
-            tarjeta = tk.Frame(self.contenedor_tareas, bg="white", highlightbackground="#e0e0e0", highlightthickness=1, bd=0, padx=15, pady=15)
-            tarjeta.grid(row=i // 2, column=i % 2, padx=10, pady=10, sticky="nsew")
-            
-            # Dentro de la tarjeta
-            tk.Label(tarjeta, text=Tarea.titulo.upper(), font=("Arial", 9, "bold"), bg="white", fg="#333333").pack(anchor="w")
-            tk.Label(tarjeta, text=Tarea.descripcion, font=("Arial", 8), bg="white", fg="#666666", wraplength=150, justify="left").pack(anchor="w", pady=(5, 0))
+            tarjeta = ui.crear_tarjeta(self.contenedor_tareas, i, Tarea)
+            # tarjeta = tk.Frame(self.contenedor_tareas, bg="white", highlightbackground="#e0e0e0", highlightthickness=1, bd=0, padx=15, pady=15)
+            # tarjeta.grid(row=i // 2, column=i % 2, padx=10, pady=10, sticky="nsew")
+            #
+            # # Dentro de la tarjeta
+            # tk.Label(tarjeta, text=Tarea.titulo.upper(), font=("Arial", 9, "bold"), bg="white", fg="#333333").pack(anchor="w")
+            # tk.Label(tarjeta, text=Tarea.descripcion, font=("Arial", 8), bg="white", fg="#666666", wraplength=150, justify="left").pack(anchor="w", pady=(5, 0))
 
             # agregar funcionalidad con bind para click
             for hijo in tarjeta.winfo_children():
                 hijo.bind("<Button-1>", lambda _, tarea=Tarea, t=tarjeta: self.ver_tarea(tarea))
             #agreagr resaltado Usamos t=tarjeta para "congelar" la variable en el lambda
             tarjeta.bind("<Button-1>", lambda _, tarea=Tarea, t=tarjeta: self.ver_tarea(tarea))
-            tarjeta.bind('<Enter>', lambda _, t=tarjeta: t.config(bg='#f9f9f9'))
-            tarjeta.bind('<Leave>', lambda _, t=tarjeta: t.config(bg="white"))
+            tarjeta.bind("<Enter>", lambda _, t=tarjeta: t.state(['active']))
+            tarjeta.bind("<Leave>", lambda _, t=tarjeta: t.state(['!active']))
 
-
-#             # Prioridad visual (Badge)
-#             color_prio = {1: "#ffcccc", 2: "#fff4cc", 3: "#ccffcc"}.get(Tarea.prioridad, "#eeeeee")
-#             lbl_prio = tk.Label(tarjeta, text=f"Prio: {Tarea.prioridad}", font=("Arial", 7, "bold"), bg=color_prio, padx=5)
-#             lbl_prio.pack(anchor="e", pady=(10, 0))
-#
