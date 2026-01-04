@@ -13,22 +13,36 @@ class Ventana(tk.Tk):
         self.configure(bg="#f0f0f0")
         self.control = control
 
-        # Estilo para botones y etiquetas
-        style = ttk.Style()
-        style.configure("Card.TFrame", background="white", relief="flat")
-
         # Frame de botones superiores
         frame_menu = tk.Frame(self, bg="#ffffff", borderwidth=1, relief="groove", pady=15, padx=15)
         frame_menu.pack(fill="x")
 
-        # Frame para botones
+        # Frame para botones de navegación
         ttk.Button(frame_menu, text="Pendientes", command=self.mostrar_tareas).grid(column=0, row=0, padx=5)
         ttk.Button(frame_menu, text="Completadas", command=lambda :self.mostrar_tareas("completada")).grid(column=1, row=0, padx=5)
         ttk.Button(frame_menu, text="+ Nueva Tarea", command=self.crear_tarea).grid(column=2, row=0, padx=20)
 
+
+        # Crear un contenedor principal para el área de scroll
+        self.main_container = tk.Frame(self, bg="#f0f0f0")
+        self.main_container.pack(fill="both", expand=True)
+        # Crear el Canvas y # 3. Crear el Scrollbar vinculado al Canvas
+        self.canvas = tk.Canvas(self.main_container, bg="#f0f0f0", highlightthickness=0)
+        self.canvas.pack(side="left", fill="both", expand=True)
+        scrollbar = ttk.Scrollbar(self.main_container, orient="vertical", command=self.canvas.yview)
+        scrollbar.pack(side="right", fill="y")
+        self.canvas.configure(yscrollcommand=scrollbar.set)
+
         #Contenedor Tareas
-        self.contenedor_tareas = tk.Frame(self, bg="#f0f0f0", padx=10, pady=10)
+        self.contenedor_tareas = tk.Frame(self.canvas, bg="#f0f0f0", padx=10, pady=10)
         self.contenedor_tareas.pack(fill="both", expand=True)
+
+        # Meter el frame dentro del canvas
+        self.canvas_frame = self.canvas.create_window((0, 0), window=self.contenedor_tareas, anchor="nw")
+        # Configurar que el frame interno se estire al ancho del canvas
+        self.contenedor_tareas.bind("<Configure>", lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all")))
+        self.canvas.bind("<Configure>", lambda e: self.canvas.itemconfig(self.canvas_frame, width=e.width))
+        # self.canvas.bind_all("<MouseWheel>", lambda e: self.canvas.yview_scroll(int(-1*(e.delta/120)), "units"))
 
         #primera carga de tareas
         self.mostrar_tareas()
@@ -70,16 +84,14 @@ class Ventana(tk.Tk):
         #lista actualizada de tareas
         lista_tareas = self.control.listar_tareas(args)
         ui = UiVentanaPrincipla()
+        
+
+        self.contenedor_tareas.columnconfigure(0, weight=1)
+        self.contenedor_tareas.columnconfigure(1, weight=1)
 
         for i, Tarea in enumerate(lista_tareas):
             # Creamos la tarjeta
             tarjeta = ui.crear_tarjeta(self.contenedor_tareas, i, Tarea)
-            # tarjeta = tk.Frame(self.contenedor_tareas, bg="white", highlightbackground="#e0e0e0", highlightthickness=1, bd=0, padx=15, pady=15)
-            # tarjeta.grid(row=i // 2, column=i % 2, padx=10, pady=10, sticky="nsew")
-            #
-            # # Dentro de la tarjeta
-            # tk.Label(tarjeta, text=Tarea.titulo.upper(), font=("Arial", 9, "bold"), bg="white", fg="#333333").pack(anchor="w")
-            # tk.Label(tarjeta, text=Tarea.descripcion, font=("Arial", 8), bg="white", fg="#666666", wraplength=150, justify="left").pack(anchor="w", pady=(5, 0))
 
             # agregar funcionalidad con bind para click
             for hijo in tarjeta.winfo_children():
