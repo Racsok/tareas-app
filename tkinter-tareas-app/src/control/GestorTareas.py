@@ -1,5 +1,8 @@
 # esta es la clase que gestiona las tareas
 from models.tarea import Tarea
+from utiles.logger import config_logger
+
+logger = config_logger(__name__)
 
 class GestorTareas:
     def __init__(self, db) -> None:
@@ -71,6 +74,7 @@ class GestorTareas:
 
         except Exception as e:
             raise e
+
     def listar_tareas(self, tupla):
         self.ordenar_tareas()
         return self.tareas_pendientes if tupla == () else self.tareas_completadas
@@ -85,4 +89,7 @@ class GestorTareas:
         todas = self.session.query(Tarea).all()
         self.tareas_pendientes = [t for t in todas if not t.completada]
         self.tareas_completadas = [t for t in todas if t.completada]
+
+    def obtener_prioridad(self):
+        return Tarea.MAPA_PRIO
 

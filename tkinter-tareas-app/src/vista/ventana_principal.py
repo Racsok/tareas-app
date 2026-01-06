@@ -49,7 +49,7 @@ class Ventana(tk.Tk):
 
 
     def crear_tarea(self):
-        crear_tarea = VistaCrearTarea(self)
+        crear_tarea = VistaCrearTarea(self, self.control)
         crear_tarea.grab_set() # bloquea la ventana principal
         self.wait_window(crear_tarea)
         data = crear_tarea.data
