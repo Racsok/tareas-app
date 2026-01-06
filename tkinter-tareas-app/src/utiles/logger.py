@@ -23,15 +23,16 @@ def config_logger(name, log_file="app.log", level=logging.INFO):
     formatter = logging.Formatter('%(asctime)s | %(name)s | %(levelname)s | %(message)s')
 
     #handerl para archivo
-    # file_handler = logging.FileHandler(log_path, encoding="utf-8")
-    # file_handler.setFormatter(formatter)
+    file_handler = logging.FileHandler(log_path, encoding="utf-8", mode="w")
+    file_handler.setLevel(logging.WARNING)
+    file_handler.setFormatter(formatter)
 
     #handler para consola
     consola_handler = logging.StreamHandler()
     consola_handler.setFormatter(formatter)
 
     #Añadir handlers al logger
-    # logger.addHandler(file_handler)
+    logger.addHandler(file_handler)
     logger.addHandler(consola_handler)
 
     return logger
