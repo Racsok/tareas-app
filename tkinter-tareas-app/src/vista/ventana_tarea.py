@@ -10,6 +10,7 @@ class VistaTarea(tk.Toplevel):
         self.configure(padx=20, pady=20)
         self.tarea = Tarea
         self.data = None
+        invr = Tarea.MAPA_PRIO_INVERTIDO
 
         # --- TÍTULO ---
         ttk.Label(self, text="Título de la Tarea", font=("Arial", 10, "bold")).pack(anchor="w")
@@ -31,8 +32,8 @@ class VistaTarea(tk.Toplevel):
         prioridad_frame = ttk.Frame(meta_frame)
         prioridad_frame.pack(side="left", fill="x", expand=True)
         ttk.Label(prioridad_frame, text="Prioridad", font=("Arial", 10, "bold")).pack(anchor="w")
-        self.prioridad = ttk.Combobox(prioridad_frame, values=["Baja", "Media", "Alta"], state="readonly")
-        self.prioridad.set(self.tarea.prioridad)
+        self.prioridad = ttk.Combobox(prioridad_frame, values=list(self.tarea.MAPA_PRIO.keys()), state="readonly")
+        self.prioridad.set(invr[self.tarea.prioridad])
         self.prioridad.pack(anchor="w", padx=(0, 10))
 
         # Fecha Límite
@@ -87,7 +88,7 @@ class VistaTarea(tk.Toplevel):
                     "tarea": self.tarea,
                     "titulo":  self.titulo.get(),
                     "descripcion": self.descripcion.get("1.0", "end-1c"),
-                    "prioridad": self.prioridad.get(),
+                    "prioridad": self.tarea.MAPA_PRIO[f"{self.prioridad.get()}"],
                     "ent_fecha":  self.ent_fecha.get_date(),
                     "evento": "actualizar"
                     }

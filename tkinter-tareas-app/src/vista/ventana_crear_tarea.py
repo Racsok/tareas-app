@@ -4,14 +4,13 @@ from tkinter import ttk
 from tkcalendar import DateEntry
 
 class VistaCrearTarea(tk.Toplevel):
-    def __init__(self, parent):
+    def __init__(self, parent, control):
         super().__init__(parent)
+        self.prio = control.obtener_prioridad()
         self.title("Crear Tarea")
         self.geometry("350x450")
         self.configure(padx=25, pady=20)
 
-        # Mapeo de Prioridades
-        self.mapa_prioridad = {"Alta (1)": 1, "Media (2)": 2, "Baja (3)": 3}
         
         # Titulo
         tk.Label(self, text="Título", font=("Arial", 10, "bold")).pack(anchor="w", pady=(0, 5))
@@ -25,7 +24,7 @@ class VistaCrearTarea(tk.Toplevel):
 
         # Prioridad
         tk.Label(self, text="Prioridad", font=("Arial", 10, "bold")).pack(anchor="w", pady=(0, 5))
-        self.prioridad = ttk.Combobox(self, values=list(self.mapa_prioridad.keys()), state="readonly")
+        self.prioridad = ttk.Combobox(self, values=list(self.prio.keys()), state="readonly")
         self.prioridad.set("Media (2)") # Valor por defecto
         self.prioridad.pack(fill="x", pady=(0, 15))
         
@@ -43,7 +42,7 @@ class VistaCrearTarea(tk.Toplevel):
             self.data = {
                     "titulo":  self.titulo.get(),
                     "descripcion": self.descripcion.get(),
-                    "prioridad": self.mapa_prioridad[f"{self.prioridad.get()}"],
+                    "prioridad": self.prio[f"{self.prioridad.get()}"],
                     "ent_fecha":  self.ent_fecha.get_date(), 
                     }
             self.destroy()

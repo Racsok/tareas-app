@@ -13,6 +13,10 @@ class Tarea(Base):
     fecha_limite = Column(Date) # O puedes usar Date
     completada = Column(Boolean, default=False)
 
+    # Mapeo de Prioridades
+    MAPA_PRIO = {"Alta (1)": 1, "Media (2)": 2, "Baja (3)": 3}
+    MAPA_PRIO_INVERTIDO = {1: "Alta (1)", 2: "Media (2)", 3: "Baja (3)"}
+
     def __str__(self):
         try:
             estado = "✅" if self.completada is True else "⏳"

@@ -23,17 +23,21 @@ tkinter-tareas-app/
 ├── requirements.txt
 └── src
     ├── control
-    │   ├── GestorTareas.py
+    │   └── GestorTareas.py
     ├── db
-    │   ├── connection.py
+    │   └── connection.py
     ├── main.py
     ├── models
-    │   └── tarea.py
+    │   └── tarea.py
     ├── pyrightconfig.json
+    ├── ui
+    │   └── ui_ventana_principal.py
+    ├── utiles
+    │   └── logger.py
     └── vista
         ├── ventana_crear_tarea.py
         ├── ventana_principal.py
-        └── ventana_tarea.py               
+        └── ventana_tarea.py
 ```
 
 ## ⚙️ Instalación y Uso
@@ -70,7 +74,7 @@ python3 src/main.py
 Para que tu repositorio sea impecable, crea un archivo llamado `.gitignore` en la carpeta raíz (al lado de `README.md`). Esto evitará que subas archivos "basura" o tu base de datos local. 
 
 **Contenido recomendado para tu `.gitignore`:**
-```tex
+```text
 # Ignora cualquier carpeta llamada .venv en cualquier nivel de profundidad
 **/.venv/
 **/venv/
@@ -87,11 +91,13 @@ Para que tu repositorio sea impecable, crea un archivo llamado `.gitignore` en l
 .vscode/
 .idea/
 
+# Archivos de logs
+**/log
+**/*.log
+
 # Bases de datos SQLite
 **/*.sqlite
 **/*.db
-
-pyrightconfig.json
 ```
 
 
