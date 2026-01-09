@@ -53,6 +53,8 @@ class Ventana(tk.Tk):
         crear_tarea.grab_set() # bloquea la ventana principal
         self.wait_window(crear_tarea)
         data = crear_tarea.data
+        if not data:
+            return
         self.control.crear_tarea(data.get("titulo"), data.get("descripcion"), data.get("prioridad"), data.get("ent_fecha"))
         self.mostrar_tareas()
 

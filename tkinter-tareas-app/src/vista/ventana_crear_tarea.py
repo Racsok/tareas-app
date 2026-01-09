@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # Interfaz para crear tarea
 import tkinter as tk
 from tkinter import ttk
@@ -7,6 +8,7 @@ class VistaCrearTarea(tk.Toplevel):
     def __init__(self, parent, control):
         super().__init__(parent)
         self.prio = control.obtener_prioridad()
+        self.data = {}
         self.title("Crear Tarea")
         self.geometry("350x450")
         self.configure(padx=25, pady=20)
@@ -44,6 +46,7 @@ class VistaCrearTarea(tk.Toplevel):
                     "descripcion": self.descripcion.get(),
                     "prioridad": self.prio[f"{self.prioridad.get()}"],
                     "ent_fecha":  self.ent_fecha.get_date(), 
+                    "evento": "guardar",
                     }
             self.destroy()
         finally:

@@ -1,6 +1,7 @@
 # 📝 Tkinter Task Manager
 
 Una aplicación de escritorio moderna y funcional para la gestión de tareas, construida con **Python** y **SQLite**. Este proyecto implementa un sistema de tarjetas con persistencia de datos y priorización visual.
+Para ver la documentación del proyecto puede [acceder a l link](https://docs.google.com/document/d/1E40QxcGqvqrlfBYLce0SjE4RNIwqRWhUfmU4_Am8Tz4/edit?usp=sharing)
 
 
 ## 🚀 Características principales
