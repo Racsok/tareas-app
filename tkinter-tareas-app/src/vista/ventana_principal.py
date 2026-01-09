@@ -1,3 +1,4 @@
+#!/usr/bin/env pyhton3
 import tkinter as tk
 from tkinter import ttk
 
